@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessie Math捷析 - 比率與百分率</title>
+    
+    <meta name="description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:title" content="Jessie Math捷析 - 比率與百分率">
+    <meta property="og:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:type" content="website">
+    
+    <meta property="og:image" content="g5-u18.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1536">
+    <meta property="og:image:alt" content="Jessie Math 遊戲封面">
+    
+    <link rel="image_src" href="g5-u18.png">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jessie Math捷析 - 比率與百分率">
+    <meta name="twitter:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta name="twitter:image" content="g5-u18.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS Reset & 基礎設定 */
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* 加入滿版背景圖片設定 */
+        body { 
+            margin: 0; padding: 0; color: #333; overflow-x: hidden; 
+            background-color: #f7f9fc;
+            background-image: url('jessie logo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* 防止白板開啟時的反藍與拖曳問題 */
+        body.wb-active {
+            user-select: none; /* 禁用文字反藍 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        body.wb-active img {
+            -webkit-user-drag: none; /* 禁用圖片拖曳 */
+            pointer-events: none; /* 讓圖片不干擾畫筆 */
+        }
+
+        /* 品牌 Header 區域 */
+        .brand-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 30px; background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative; z-index: 10;
+        }
+        .brand-left { display: flex; align-items: center; gap: 15px; }
+        .brand-logo-container {
+            width: 60px; height: 60px; border-radius: 50%; border: 3px solid #e8862e;
+            display: flex; justify-content: center; align-items: center; overflow: hidden; background: transparent;
+        }
+        .brand-logo-container img { width: 100%; height: 100%; object-fit: cover; }
+        .brand-title { font-size: 28px; font-weight: bold; color: #2c3e50; }
+        .brand-nav { display: flex; gap: 15px; flex-wrap: wrap; }
+        .nav-btn {
+            text-decoration: none; padding: 8px 16px; border-radius: 20px;
+            font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 5px;
+            transition: all 0.2s; border: 1px solid #ccc;
+        }
+        .nav-home, .nav-lobby { background-color: #fff; color: #2980b9; border-color: #2980b9; }
+        .nav-home:hover, .nav-lobby:hover { background-color: #eaf4fc; }
+        .nav-return { background-color: #f3e5f5; color: #8e44ad; border-color: #8e44ad; }
+        .nav-return:hover { background-color: #e8d5f0; }
+
+        /* 主內容區塊設定，將剩餘空間撐開，使 Footer 保持在最下方 */
+        .main-wrapper { flex: 1; display: flex; flex-direction: column; }
+
+        /* 頁面切換容器 (半透明底讓背景微透) */
+        .page-container {
+            max-width: 900px; width: 95%; margin: 30px auto; padding: 20px;
+            background: rgba(255, 255, 255, 0.95); border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .hidden { display: none !important; }
+        
+        /* 按鈕共用 */
+        button {
+            cursor: pointer; border: none; border-radius: 8px; font-weight: bold;
+            padding: 12px 24px; font-size: 16px; transition: transform 0.1s, opacity 0.2s;
+        }
+        button:active { transform: scale(0.95); }
+        .btn-primary { background-color: #e8862e; color: white; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-secondary { background-color: #95a5a6; color: white; }
+        .btn-secondary:hover { opacity: 0.9; }
+        .btn-danger { background-color: #e74c3c; color: white; }
+        .btn-danger:hover { opacity: 0.9; }
+        
+        /* 第一頁：登入與規則 */
+        .login-box { text-align: center; }
+        .login-box input {
+            padding: 12px; font-size: 18px; border: 2px solid #ccc; border-radius: 8px; width: 60%; max-width: 300px; margin-bottom: 20px; text-align: center;
+        }
+        .rules { text-align: left; background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px auto; width: 80%; line-height: 1.6; }
+        
+        /* 第二頁：主選單與排行榜 */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .level-card {
+            background: #eaf4fc; border: 2px solid #3498db; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s;
+        }
+        .level-card:hover { background: #3498db; color: white; }
+        .diff-select { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+        .diff-btn { background: #ecf0f1; color: #333; border: 2px solid #bdc3c7; }
+        .diff-btn.active { background: #e74c3c; color: white; border-color: #c0392b; }
+        .leaderboard { margin-top: 30px; overflow-x: auto; }
+        .lb-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: center; min-width: 500px; }
+        .lb-table th, .lb-table td { border: 1px solid #ddd; padding: 10px; }
+        .lb-table th { background-color: #f2f2f2; }
+        .rank-1 { font-size: 20px; } .rank-2 { font-size: 18px; } .rank-3 { font-size: 16px; }
+
+        /* 第三頁：遊戲畫面 */
+        .game-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: #2c3e50; color: white; padding: 15px; border-radius: 8px; position: relative; z-index: 105; }
+        .stat-box { font-size: 18px; font-weight: bold; }
+        .combo-text { color: #f1c40f; font-size: 22px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        
+        /* 讓題目與選項浮在白板上方 */
+        .question-area { font-size: 22px; margin-bottom: 30px; line-height: 1.5; min-height: 100px; display: flex; align-items: center; justify-content: center; padding: 20px; background: #fdfefe; border: 2px dashed #bdc3c7; border-radius: 10px; position: relative; z-index: 105; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .option-btn { font-size: 18px; padding: 20px; background: #ecf0f1; border: 2px solid #bdc3c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 105; }
+        .option-btn:hover { background: #d5dbdb; }
+        
+        .game-controls { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .game-controls button { position: relative; z-index: 105; }
+        .ctrl-btn { background: #7f8c8d; color: white; }
+        .ctrl-btn:hover { background: #95a5a6; }
+        
+        /* 復盤(結算)頁面 */
+        .review-box { background: #fff; padding: 20px; border-radius: 10px; border: 2px solid #e8862e; }
+        .review-summary { text-align: center; margin-bottom: 20px; font-size: 20px; font-weight: bold; }
+        .review-list { max-height: 400px; overflow-y: auto; background: #f9f9f9; border: 1px solid #ccc; padding: 15px; border-radius: 8px; text-align: left; }
+        .review-item { border-bottom: 1px solid #eee; padding: 12px 0; }
+        .review-item:last-child { border-bottom: none; }
+        .review-q { font-size: 18px; font-weight: bold; margin-bottom: 8px; color: #2c3e50; }
+
+        /* 白板滿版功能 (置於底層，開啟時攔截畫布點擊) */
+        #whiteboard-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            z-index: 100; pointer-events: none;
+            visibility: hidden; 
+        }
+        #whiteboard-canvas { width: 100%; height: 100%; cursor: crosshair; }
+        .wb-active #whiteboard-container { 
+            pointer-events: auto; 
+            background: rgba(255,255,255,0.2); 
+            visibility: visible; 
+        }
+        .wb-tools { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: none; gap: 10px; z-index: 110; pointer-events: auto; }
+        .wb-active .wb-tools { display: flex; }
+
+        /* 老師回饋浮水印 (Avatar) */
+        .avatar {
+            position: fixed; bottom: -400px; width: 250px; z-index: 50; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; pointer-events: none;
+        }
+        .avatar img { width: 100%; min-width: 200px; max-width: 300px; drop-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .avatar-left { left: 20px; }
+        .avatar-right { right: 20px; }
+        .avatar.show { bottom: 20px; }
+        .speech-bubble {
+            background: #fff; border: 2px solid #f39c12; border-radius: 15px; padding: 10px 20px;
+            font-size: 18px; font-weight: bold; margin-bottom: -10px; z-index: 51; text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); position: relative;
+        }
+        .speech-bubble::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            border-width: 10px 10px 0; border-style: solid; border-color: #f39c12 transparent transparent transparent;
+        }
+
+        /* Footer 子彈型樣式 */
+        footer {
+            display: flex; justify-content: center; width: 100%; padding: 20px 10px;
+            margin-top: auto; position: relative; z-index: 10;
+        }
+        .footer-pill {
+            background: #2c3e50; color: #fff; padding: 12px 24px; border-radius: 50px;
+            display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between;
+            font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 100%; max-width: 800px;
+        }
+        .footer-left, .footer-right { display: flex; align-items: center; gap: 8px; }
+        .footer-dot { width: 8px; height: 8px; background-color: #e8862e; border-radius: 50%; }
+        .footer-icon { color: #e8862e; font-size: 16px; }
+
+        /* RWD 響應式與手機橫向限制設定 */
+        #portrait-warning { display: none; }
+        
+        @media (max-width: 768px) {
+            .brand-header { flex-direction: column; gap: 15px; text-align: center; }
+            .brand-nav { justify-content: center; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .level-card[style] { grid-column: span 1 !important; }
+            .options-grid { grid-template-columns: 1fr; }
+            .rules { width: 100%; }
+            .footer-pill { flex-direction: column; border-radius: 15px; text-align: center; justify-content: center; }
+        }
+
+        /* 偵測手機直向時，阻擋畫面並提示旋轉 */
+        @media screen and (max-width: 850px) and (orientation: portrait) {
+            #portrait-warning {
+                display: flex; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: #2c3e50; color: white; align-items: center; justify-content: center;
+                font-size: 24px; z-index: 9999; flex-direction: column; text-align: center; padding: 20px;
+            }
+            .brand-header, .main-wrapper, footer { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="portrait-warning">
+        <i class="fas fa-mobile-alt" style="font-size: 60px; margin-bottom: 20px; transform: rotate(90deg);"></i>
+        <p style="font-weight: bold; margin-bottom: 10px;">請將裝置旋轉至橫向</p>
+        <p style="font-size: 16px; color: #bdc3c7;">以獲得最佳的學習與遊戲體驗</p>
+    </div>
+
+    <header class="brand-header">
+        <div class="brand-left">
+            <div class="brand-logo-container">
+                <img src="JESSIEMATH-Q.png" alt="Logo">
+            </div>
+            <div class="brand-title">Jessie Math捷析</div>
+        </div>
+        <div class="brand-nav">
+            <a href="https://jessiemath0703-chu.github.io/website2/" class="nav-btn nav-home">🏠 首頁</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/" class="nav-btn nav-lobby">🎮 遊戲大廳</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/#g5-u18" class="nav-btn nav-return">🔙 G5比率與百分率</a>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        <div id="page-login" class="page-container">
+            <div class="login-box">
+                <h2>歡迎來到 比率與百分率 挑戰！</h2>
+                <div class="rules">
+                    <h3>📜 遊戲規則說明</h3>
+                    <ul>
+                        <li>請先選擇難度與關卡，系統會自動產生無限多隨機變化的題庫。</li>
+                        <li>✅ <b>答對：</b> 增加 5 秒時間，並累計 Combo（連擊越高，分數加成越高）。</li>
+                        <li>❌ <b>答錯：</b> 扣除 5 秒時間，Combo 歸零，並顯示正確解答。</li>
+                        <li>📝 遊戲中隨時可以開啟 <b>滿版計算白板</b> 進行直式計算。（白板使用中依然可以直接點選答案作答！）</li>
+                        <li>🏆 時間結束後，系統會結算成績、進行復盤，並列入 <b>Top 10 榮譽排行榜</b>。</li>
+                    </ul>
+                </div>
+                <input type="text" id="player-name" placeholder="請輸入你的名字 (必填)" autocomplete="off">
+                <br>
+                <button class="btn-primary" onclick="goToMenu()">進入遊戲大廳</button>
+            </div>
+        </div>
+
+        <div id="page-menu" class="page-container hidden">
+            <h2 style="text-align: center;">選擇挑戰模式 <span id="display-player-name" style="color:#e8862e;"></span></h2>
+            
+            <div style="text-align: center; margin-bottom: 10px;"><b>1. 選擇難度 (時間限制)</b></div>
+            <div class="diff-select">
+                <button class="diff-btn active" onclick="setDiff(this, 90, '基礎')">基礎 (90秒)</button>
+                <button class="diff-btn" onclick="setDiff(this, 60, '進階')">進階 (60秒)</button>
+                <button class="diff-btn" onclick="setDiff(this, 45, '魔王')">魔王 (45秒)</button>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 10px;"><b>2. 選擇關卡</b></div>
+            <div class="menu-grid">
+                <div class="level-card" onclick="startGame(1)">
+                    <h3>第一關：認識比率</h3>
+                    <p>總量與部分量之間的關係，分數擴分與約分計算。</p>
+                </div>
+                <div class="level-card" onclick="startGame(2)">
+                    <h3>第二關：認識百分率</h3>
+                    <p>百分率與分數、小數的互相轉換 ( % )。</p>
+                </div>
+                <div class="level-card" onclick="startGame(3)" style="grid-column: span 2;">
+                    <h3>第三關：百分率應用</h3>
+                    <p>打折、加成、濃度、服務費、命中率等生活情境綜合題型。</p>
+                </div>
+            </div>
+
+            <div class="leaderboard">
+                <h3>🏆 榮譽排行榜 (Top 10)</h3>
+                <table class="lb-table">
+                    <thead>
+                        <tr>
+                            <th>名次</th><th>玩家</th><th>關卡</th><th>難度</th><th>答對/總題</th><th>總得分</th><th>日期時間</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="page-game" class="page-container hidden">
+            <div class="game-header">
+                <div class="stat-box">⏳ 時間: <span id="timer">90</span> 秒</div>
+                <div class="stat-box">🎯 題數: <span id="q-count">1</span></div>
+                <div class="stat-box combo-text">🔥 Combo: <span id="combo">0</span></div>
+                <div class="stat-box">⭐ 分數: <span id="score">0</span></div>
+            </div>
+
+            <div id="question-text" class="question-area">題目載入中...</div>
+            
+            <div id="options-container" class="options-grid">
+                </div>
+            
+            <div class="game-controls">
+                <button class="ctrl-btn" id="btn-pause" onclick="togglePause()">⏸ 暫停</button>
+                <button class="ctrl-btn" onclick="restartGame()">🔄 重來</button>
+                <button class="ctrl-btn" onclick="toggleWhiteboard()">🖍 開/關計算白板</button>
+                <button class="btn-secondary" onclick="confirmReturnToMenu()">🔙 回主選單</button>
+            </div>
+        </div>
+
+        <div id="page-review" class="page-container hidden">
+            <div class="review-box">
+                <div class="review-summary" id="review-summary">
+                    </div>
+                <h3 style="text-align: center; border-bottom: 2px solid #eee; padding-bottom: 10px;">📜 答題復盤紀錄</h3>
+                <div class="review-list" id="review-list">
+                    </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn-primary" onclick="goToMenuFromReview()">返回主選單</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="whiteboard-container">
+        <canvas id="whiteboard-canvas"></canvas>
+        <div class="wb-tools">
+            <button class="btn-primary" style="background:#e74c3c" onclick="clearWhiteboard()">🗑 清除筆跡</button>
+            <button class="btn-primary" onclick="toggleWhiteboard()">✖ 關閉白板</button>
+        </div>
+    </div>
+
+    <div id="avatar-success" class="avatar avatar-left">
+        <div class="speech-bubble" id="msg-success">太棒了！連擊加分！</div>
+        <img src="jessie.png" alt="Jessie Teacher">
+    </div>
+
+    <div id="avatar-fail" class="avatar avatar-right">
+        <div class="speech-bubble" id="msg-fail">沒關係，正確答案是...</div>
+        <img src="JESSIEMATH-Q.png" alt="Jessie Q Teacher">
+    </div>
+
+    <footer>
+        <div class="footer-pill">
+            <div class="footer-left">
+                <div class="footer-dot" aria-hidden="true"></div>
+                <div class="footer-copy">© 2025–2026 Jessie Math 捷析老師. All rights reserved.</div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-icon" aria-hidden="true"><i class="fas fa-compass"></i></div>
+                <div class="footer-tagline">數學不迷路，捷析Jessie帶你走向理解。</div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // --- 全域變數 ---
+    let playerName = "";
+    let currentDifficulty = { name: "基礎", time: 90 };
+    let currentLevel = 1;
+    let timeRemaining = 0;
+    let timerInterval = null;
+    let isPaused = false;
+    
+    // 遊戲與復盤狀態
+    let currentQuestion = null;
+    let questionsAttempted = 0;
+    let correctAnswers = 0;
+    let currentCombo = 0;
+    let totalScore = 0;
+    let gameHistory = []; 
+    let lastQuestionType = -1; 
+
+    const names = ["小明", "小華", "小美", "阿志", "大華", "小玲", "阿源", "胖虎", "大雄", "靜香", "小夫", "安安", "皮皮"];
+    const items = ["糖果", "餅乾", "巧克力", "蘋果", "水蜜桃", "橘子", "包子", "紅豆餅"];
+    const drinks = ["果汁", "牛奶", "紅茶", "綠茶", "奶茶", "冬瓜茶", "檸檬汁"];
+    const places = ["學校", "圖書館", "公園", "遊樂園", "超市", "百貨公司", "便利商店"];
+
+    // --- 工具函式 ---
+    function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+    
+    // 生成上分子、下分母的 HTML 結構
+    function formatFraction(num, den) {
+        let g = gcd(Math.abs(num), Math.abs(den));
+        let n = num / g;
+        let d = den / g;
+        if(d === 1) return n.toString();
+        return `<span style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: 0.9em; margin: 0 4px;"><span style="border-bottom: 1px solid #333; padding: 0 2px;">${n}</span><span style="padding: 0 2px;">${d}</span></span>`;
+    }
+
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // --- 題庫生成器 ---
+    function generateQuestion(level) {
+        let q = "", ansHtml = "", optionsHtml = [];
+        let maxTypes = 11; 
+        let type;
+
+        do {
+            type = Math.floor(Math.random() * maxTypes);
+        } while (type === lastQuestionType);
+        lastQuestionType = type;
+        
+        let name = getRandomItem(names);
+        let item = getRandomItem(items);
+        let drink = getRandomItem(drinks);
+        let place = getRandomItem(places);
+
+        if (level === 1) {
+            // ================== 第一關：認識比率 (11種) ==================
+            if (type === 0) {
+                let total = Math.floor(Math.random() * 20 + 10) * 2; 
+                let part = Math.floor(Math.random() * (total/2 - 2) + 4) * 2;
+                q = `${name} 有 ${total} 顆 ${item}，其中 ${part} 顆是紅色的，紅色 ${item} 占全部的比率是多少？(化為最簡分數)`;
+                ansHtml = formatFraction(part, total);
+                optionsHtml = [ansHtml, formatFraction(total-part, total), formatFraction(part, total+4), formatFraction(part+2, total)];
+            } else if (type === 1) {
+                let part1 = Math.floor(Math.random() * 15 + 5) * 5; 
+                let part2 = Math.floor(Math.random() * 15 + 5) * 5;
+                let total = part1 + part2;
+                q = `${place} 裡有男生 ${part1} 人，女生 ${part2} 人。男生占全部人數的比率是多少？`;
+                ansHtml = formatFraction(part1, total);
+                optionsHtml = [ansHtml, formatFraction(part2, total), formatFraction(part1, part1+part2+5), formatFraction(part1+5, total)];
+            } else if (type === 2) {
+                let den = Math.floor(Math.random() * 6 + 3); 
+                let num = Math.floor(Math.random() * (den - 1) + 1);
+                let multiplier = Math.floor(Math.random() * 10 + 5) * 10; 
+                let total = den * multiplier;
+                let ansVal = num * multiplier;
+                q = `${name} 買了 ${total} 毫升的 ${drink}，喝了全部的 ${formatFraction(num, den)}，請問喝掉了多少毫升？`;
+                ansHtml = `${ansVal}`;
+                optionsHtml = [ansHtml, `${ansVal+10}`, `${total - ansVal}`, `${Math.floor(ansVal*1.2)}`];
+            } else if (type === 3) {
+                let total = Math.floor(Math.random() * 10 + 2) * 5;
+                let part = Math.floor(Math.random() * (total - 2) + 1);
+                q = `總共 ${total} 題的測驗，${name} 答錯 ${part} 題。答對的題數占全部題數的幾分之幾？`;
+                ansHtml = formatFraction(total-part, total);
+                optionsHtml = [ansHtml, formatFraction(part, total), formatFraction(total-part-1, total), formatFraction(part+1, total)];
+            } else if (type === 4) {
+                let num = Math.floor(Math.random() * 3 + 1);
+                let den = num + Math.floor(Math.random() * 3 + 2);
+                q = `一盒 ${item}，${name} 吃掉全部的 ${formatFraction(num, den)}，剩下的都給弟弟吃，弟弟吃了全部的幾分之幾？`;
+                ansHtml = formatFraction(den-num, den);
+                optionsHtml = [ansHtml, formatFraction(num, den), formatFraction(den-num-1, den), formatFraction(num+1, den)];
+            } else if (type === 5) {
+                let total = Math.floor(Math.random() * 5 + 5) * 10;
+                let num = Math.floor(Math.random() * 3 + 1);
+                let den = num + Math.floor(Math.random() * 2 + 1);
+                let ansVal = (total * num) / den;
+                while(total % den !== 0) { total += 10; ansVal = (total * num) / den; }
+                q = `一塊 ${total} 公畝的土地，其中 ${formatFraction(num, den)} 種樹，其餘種花。種樹的面積是多少公畝？`;
+                ansHtml = `${ansVal}`;
+                optionsHtml = [ansHtml, `${total - ansVal}`, `${ansVal + 5}`, `${Math.floor(ansVal*1.5)}`];
+            } else if (type === 6) {
+                let tea = Math.floor(Math.random() * 5 + 3) * 100; // 300-700
+                let milk = Math.floor(Math.random() * 3 + 1) * 100; // 100-300
+                let total = tea + milk;
+                q = `${name} 用 ${tea} 毫升的紅茶和 ${milk} 毫升的牛奶調配成鮮奶茶。牛奶占鮮奶茶的比率是多少？(化為最簡分數)`;
+                ansHtml = formatFraction(milk, total);
+                optionsHtml = [ansHtml, formatFraction(tea, total), formatFraction(milk, total+50), formatFraction(milk+50, total)];
+            } else if (type === 7) {
+                let total = Math.floor(Math.random() * 5 + 5) * 20; // 100-180
+                let bad = Math.floor(Math.random() * 3 + 1) * 4; // 4-12
+                q = `一箱水果有 ${total} 顆，在運送過程中壓壞了 ${bad} 顆。完好的水果占全部的比率是多少？`;
+                ansHtml = formatFraction(total-bad, total);
+                optionsHtml = [ansHtml, formatFraction(bad, total), formatFraction(total-bad-4, total), formatFraction(bad+4, total)];
+            } else if (type === 8) {
+                let total = Math.floor(Math.random() * 30 + 20);
+                let absent = Math.floor(Math.random() * 4 + 1);
+                q = `五年級某班共有 ${total} 人，今天有 ${absent} 人請假。請問今天的出席率是多少？`;
+                ansHtml = formatFraction(total-absent, total);
+                optionsHtml = [ansHtml, formatFraction(absent, total), formatFraction(total-absent-1, total), formatFraction(total-absent, total+1)];
+            } else if (type === 9) {
+                let budget = Math.floor(Math.random() * 20 + 10) * 100;
+                let spend = Math.floor(Math.random() * (budget/100 - 5) + 2) * 100;
+                q = `媽媽帶了 ${budget} 元去市場，買菜花了 ${spend} 元。買菜的錢占全部帶去錢的比率是多少？`;
+                ansHtml = formatFraction(spend, budget);
+                optionsHtml = [ansHtml, formatFraction(budget-spend, budget), formatFraction(spend+100, budget), formatFraction(spend, budget+200)];
+            } else {
+                let total = Math.floor(Math.random() * 50 + 50) * 10;
+                let invalid = Math.floor(Math.random() * 20 + 10);
+                let valid = total - invalid;
+                let candA = Math.floor(valid / 2) + Math.floor(Math.random() * 20);
+                q = `村長選舉共有 ${total} 張選票，其中廢票有 ${invalid} 張。請問有效票中，獲得 ${candA} 票的候選人，得票率(占有效票)是多少？`;
+                ansHtml = formatFraction(candA, valid);
+                optionsHtml = [ansHtml, formatFraction(candA, total), formatFraction(valid-candA, valid), formatFraction(candA+10, valid)];
+            }
+        } 
+        else if (level === 2) {
+            // ================== 第二關：認識百分率 (11種) ==================
+            if (type === 0) {
+                let denOptions = [4, 5, 8, 10, 20, 25, 40, 50];
+                let den = denOptions[Math.floor(Math.random() * denOptions.length)];
+                let num = Math.floor(Math.random() * (den - 1) + 1);
+                let pct = (num / den) * 100;
+                q = `請將分數 ${formatFraction(num, den)} 換算成百分率。`;
+                ansHtml = `${pct}%`;
+                optionsHtml = [ansHtml, `${pct+5}%`, `${100-pct}%`, `${Math.floor(pct*1.5)}%`];
+            } else if (type === 1) {
+                let dec = (Math.floor(Math.random() * 95) + 1) / 100; 
+                let pct = Math.round(dec * 100);
+                q = `請將小數 ${dec} 換算成百分率。`;
+                ansHtml = `${pct}%`;
+                optionsHtml = [ansHtml, `${pct/10}%`, `${pct*10}%`, `0.${pct}%`];
+            } else if (type === 2) {
+                let totalOptions = [20, 25, 40, 50, 100];
+                let total = totalOptions[Math.floor(Math.random() * totalOptions.length)];
+                let part = Math.floor(Math.random() * (total - 5) + 2);
+                let pct = (part / total) * 100;
+                q = `${name} 練習投籃，投了 ${total} 球，進了 ${part} 球。他的命中率是多少？`;
+                ansHtml = `${pct}%`;
+                optionsHtml = [ansHtml, `${pct+4}%`, `${100-pct}%`, `${Math.floor(pct/2)}%`];
+            } else if (type === 3) {
+                let total = Math.floor(Math.random() * 10 + 5) * 100; 
+                let pct = Math.floor(Math.random() * 40 + 10); 
+                let val = Math.round((total * pct) / 100);
+                q = `${place} 有 ${total} 人，其中 ${pct}% 有近視，請問近視的有幾人？`;
+                ansHtml = `${val}`;
+                optionsHtml = [ansHtml, `${val+20}`, `${total-val}`, `${Math.floor(val/2)}`];
+            } else if (type === 4) {
+                let total = Math.floor(Math.random() * 5 + 2) * 10; 
+                let pct = Math.floor(Math.random() * 20 + 5); 
+                let remainPct = 100 - pct;
+                q = `五年級甲班有 ${total} 人，今天的缺席率是 ${pct}%，請問出席率是多少？`;
+                ansHtml = `${remainPct}%`;
+                optionsHtml = [ansHtml, `${pct}%`, `${remainPct-5}%`, `${pct+10}%`];
+            } else if (type === 5) {
+                let pctOptions = [10, 20, 25, 30, 40, 50, 60, 75, 80];
+                let pct = pctOptions[Math.floor(Math.random() * pctOptions.length)];
+                q = `請將百分率 ${pct}% 化為最簡分數。`;
+                ansHtml = formatFraction(pct, 100);
+                optionsHtml = [ansHtml, formatFraction(pct, 10), formatFraction(100-pct, 100), formatFraction(pct+5, 100)];
+            } else if (type === 6) {
+                let total = [20, 25, 40, 50][Math.floor(Math.random()*4)];
+                let part = Math.floor(Math.random() * 10 + 5);
+                let pct = (part/total)*100;
+                q = `棒球選手 ${name} 本賽季共有 ${total} 個打數，擊出 ${part} 支安打。他的打擊率是多少？(以百分率表示)`;
+                ansHtml = `${pct}%`;
+                optionsHtml = [ansHtml, `${pct+2}%`, `${pct-5}%`, `${100-pct}%`];
+            } else if (type === 7) {
+                let off = Math.floor(Math.random() * 4 + 1) * 10; 
+                let zhe = 10 - (off/10);
+                q = `百貨公司舉辦特賣會，全館「${off}% OFF」，這代表商品是打幾折出售？`;
+                ansHtml = `${zhe}折`;
+                optionsHtml = [ansHtml, `${zhe+1}折`, `${off/10}折`, `${10-zhe}折`];
+            } else if (type === 8) {
+                let dec = (Math.floor(Math.random() * 900) + 10) / 1000; 
+                let pct = (dec * 100).toFixed(1);
+                if(pct.endsWith('.0')) pct = pct.slice(0, -2);
+                q = `請將小數 ${dec} 換算成百分率。`;
+                ansHtml = `${pct}%`;
+                optionsHtml = [ansHtml, `${(dec*10).toFixed(1)}%`, `${(dec*1000).toFixed(1)}%`, `0.${pct}%`];
+            } else if (type === 9) {
+                let pctRaw = (Math.floor(Math.random() * 900) + 10) / 10; 
+                let dec = (pctRaw / 100).toFixed(3);
+                if(dec.endsWith('0')) dec = dec.slice(0, -1);
+                if(dec.endsWith('0')) dec = dec.slice(0, -1);
+                q = `請將百分率 ${pctRaw}% 換算成小數。`;
+                ansHtml = `${dec}`;
+                optionsHtml = [ansHtml, `${(pctRaw/10).toFixed(3)}`, `${(pctRaw/1000).toFixed(4)}`, `${pctRaw}`];
+            } else {
+                let total = Math.floor(Math.random() * 10 + 3) * 10; 
+                let absent = Math.floor(Math.random() * 3 + 1) * 2;
+                let pct = ((total-absent)/total) * 100;
+                while(!Number.isInteger(pct)) {
+                    total += 10;
+                    pct = ((total-absent)/total) * 100;
+                }
+                q = `某旅行團報名人數共有 ${total} 人，當天有 ${absent} 人未報到，請問當天的出席率是多少？`;
+                ansHtml = `${pct}%`;
+                optionsHtml = [ansHtml, `${100-pct}%`, `${pct-5}%`, `${pct+2}%`];
+            }
+        }
+        else {
+            // ================== 第三關：百分率應用 (11種) ==================
+            if (type === 0) {
+                let price = Math.floor(Math.random() * 20 + 10) * 100; 
+                let discount = Math.floor(Math.random() * 3 + 6); // 6,7,8 折
+                let ansVal = price * (discount / 10);
+                q = `${place} 舉辦特賣，商品一律打 ${discount} 折。原價 ${price} 元的商品，售價是多少元？`;
+                ansHtml = `${ansVal}`;
+                optionsHtml = [ansHtml, `${price - discount*100}`, `${ansVal + 200}`, `${price * (discount-1)/10}`];
+            } else if (type === 1) {
+                let price = Math.floor(Math.random() * 30 + 10) * 50; 
+                let off = Math.floor(Math.random() * 4 + 1) * 10; // 10,20,30,40 % off
+                let ansVal = price * (1 - off/100);
+                q = `${name} 想買原價 ${price} 元的衣服，現在標示 ${off}% OFF，結帳要付多少元？`;
+                ansHtml = `${ansVal}`;
+                optionsHtml = [ansHtml, `${price * (off/100)}`, `${ansVal - 50}`, `${ansVal + 100}`];
+            } else if (type === 2) {
+                let cost = Math.floor(Math.random() * 20 + 10) * 100;
+                let cheng = Math.floor(Math.random() * 3 + 1); // 1, 2, 3 成
+                let ansVal = cost * (1 + (cheng * 10) / 100);
+                q = `老闆買進成本 ${cost} 元的玩具，加 ${cheng} 成作為定價，請問定價是多少元？`;
+                ansHtml = `${ansVal}`;
+                optionsHtml = [ansHtml, `${cost + cheng*10}`, `${ansVal + 100}`, `${cost * (cheng * 10) / 100}`];
+            } else if (type === 3) {
+                let salary = Math.floor(Math.random() * 10 + 5) * 1000;
+                let percent = Math.floor(Math.random() * 15 + 15);
+                let ansVal = salary * (1 - percent / 100);
+                q = `${name} 這個月的零用錢是 ${salary} 元，買 ${item} 占了 ${percent}%，剩下的錢是多少元？`;
+                ansHtml = `${ansVal}`;
+                optionsHtml = [ansHtml, `${salary * percent / 100}`, `${ansVal + 500}`, `${ansVal - 500}`];
+            } else if (type === 4) {
+                let cost = Math.floor(Math.random() * 10 + 5) * 200; 
+                let cheng = 2; 
+                let discount = 8; 
+                let price = cost * 1.2;
+                let sell = price * 0.8;
+                let profit = sell - cost;
+                let status = profit >= 0 ? `賺 ${profit}` : `賠 ${Math.abs(profit)}`;
+                q = `成本 ${cost} 元的鞋子，加兩成作為定價，再打八折出售。請問老闆是賺還是賠多少元？`;
+                ansHtml = status;
+                optionsHtml = [ansHtml, `賺 ${cost*0.2}`, `賠 ${cost*0.2}`, profit >= 0 ? `賠 ${profit}` : `賺 ${Math.abs(profit)}`];
+            } else if (type === 5) {
+                let total = Math.floor(Math.random() * 5 + 3) * 100;
+                let percent = Math.floor(Math.random() * 30 + 10);
+                let ansVal = total * (percent / 100);
+                q = `${total} 毫升的特調 ${drink} 中，原汁含有率為 ${percent}%，請問原汁有多少毫升？`;
+                ansHtml = `${ansVal}`;
+                optionsHtml = [ansHtml, `${total - ansVal}`, `${ansVal + 50}`, `${Math.floor(ansVal*1.2)}`];
+            } else if (type === 6) {
+                let total = Math.floor(Math.random() * 50 + 50) * 100; 
+                let pct = Math.floor(Math.random() * 30 + 40); 
+                let val = total * pct / 100;
+                q = `某次選舉該區具有投票權的民眾有 ${total} 人，當天的投票率是 ${pct}%，請問當天實際投票的民眾有幾人？`;
+                ansHtml = `${val}`;
+                optionsHtml = [ansHtml, `${val + 100}`, `${total - val}`, `${Math.floor(val*1.1)}`];
+            } else if (type === 7) {
+                let base = Math.floor(Math.random() * 5 + 1) * 10000; 
+                let interest = Math.floor(Math.random() * 5 + 2) * 100; 
+                let final = base + interest;
+                let pct = (interest/base)*100;
+                q = `${name} 在銀行存了 ${base} 元，一年後全部領回 ${final} 元，多出來的錢占原來存款的百分率是多少？`;
+                ansHtml = `${pct}%`;
+                optionsHtml = [ansHtml, `${pct+1}%`, `${pct+0.5}%`, `${pct*2}%`];
+            } else if (type === 8) {
+                q = `超商推出同品項「第二件半價(50% off)」活動。如果 ${name} 買了兩件相同的商品，相當於是打幾折？`;
+                ansHtml = `75折`; 
+                optionsHtml = [ansHtml, `50折`, `8折`, `7折`];
+            } else if (type === 9) {
+                let meal = Math.floor(Math.random() * 10 + 5) * 100;
+                let final = meal * 1.1;
+                q = `${name} 和家人到餐廳吃飯，餐點總計 ${meal} 元。結帳時需加收一成的服務費，請問一共要付多少元？`;
+                ansHtml = `${final}`;
+                optionsHtml = [ansHtml, `${meal+10}`, `${meal * 0.9}`, `${final + 100}`];
+            } else {
+                let original = Math.floor(Math.random() * 10 + 10) * 200; // 2000 - 3800
+                let disc1 = 80; // 8折
+                let disc2 = 90; // 9折
+                let final = original * 0.8 * 0.9;
+                q = `百貨公司服飾打八折，持會員卡可再享九折優惠。一件原價 ${original} 元的外套，會員結帳要付多少元？`;
+                ansHtml = `${final}`;
+                optionsHtml = [ansHtml, `${original * 0.8}`, `${original * 0.9}`, `${original * 0.7}`];
+            }
+        }
+
+        // 過濾重複選項並補足4個 (洗牌不重複)
+        let uniqueOpts = [];
+        for(let opt of optionsHtml) {
+            if(!uniqueOpts.includes(opt)) uniqueOpts.push(opt);
+        }
+        while(uniqueOpts.length < 4) {
+             let randomExtra = (Math.floor(Math.random()*100) + 10).toString();
+             if(!uniqueOpts.includes(randomExtra)) uniqueOpts.push(randomExtra);
+        }
+        uniqueOpts = uniqueOpts.slice(0, 4);
+        uniqueOpts.sort(() => Math.random() - 0.5); 
+
+        return { question: q, answer: ansHtml, options: uniqueOpts };
+    }
+
+    // --- 介面切換與流程控制 ---
+    function hideAllPages() {
+        document.getElementById('page-login').classList.add('hidden');
+        document.getElementById('page-menu').classList.add('hidden');
+        document.getElementById('page-game').classList.add('hidden');
+        document.getElementById('page-review').classList.add('hidden');
+    }
+
+    function goToMenu() {
+        let nameInput = document.getElementById('player-name').value.trim();
+        if (!nameInput) { alert('請輸入你的名字才能開始挑戰喔！'); return; }
+        playerName = nameInput;
+        document.getElementById('display-player-name').innerText = `(${playerName})`;
+        hideAllPages();
+        document.getElementById('page-menu').classList.remove('hidden');
+        loadLeaderboard();
+    }
+
+    function goToMenuFromReview() {
+        hideAllPages();
+        document.getElementById('page-menu').classList.remove('hidden');
+        loadLeaderboard();
+    }
+
+    function confirmReturnToMenu() {
+        if(confirm("確定要返回主選單嗎？本次遊戲紀錄將不會被保存！")) {
+            clearInterval(timerInterval);
+            document.body.classList.remove('wb-active');
+            clearWhiteboard();
+            hideAllPages();
+            document.getElementById('page-menu').classList.remove('hidden');
+        }
+    }
+
+    function restartGame() {
+        if(confirm("確定要重新開始本關卡嗎？目前的進度將會遺失！")) {
+            startGame(currentLevel);
+        }
+    }
+
+    function setDiff(btn, time, name) {
+        document.querySelectorAll('.diff-btn').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        currentDifficulty = { name: name, time: time };
+    }
+
+    function startGame(level) {
+        currentLevel = level;
+        timeRemaining = currentDifficulty.time;
+        questionsAttempted = 0;
+        correctAnswers = 0;
+        currentCombo = 0;
+        totalScore = 0;
+        gameHistory = [];
+        lastQuestionType = -1; 
+        isPaused = false;
+        
+        document.body.classList.remove('wb-active');
+        clearWhiteboard();
+        
+        hideAllPages();
+        document.getElementById('page-game').classList.remove('hidden');
+        document.getElementById('btn-pause').innerText = "⏸ 暫停";
+        
+        updateUI();
+        nextQuestion();
+        
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(timerTick, 1000);
+    }
+
+    function timerTick() {
+        if (isPaused) return;
+        timeRemaining--;
+        if (timeRemaining <= 0) {
+            timeRemaining = 0;
+            updateUI();
+            endGameAndReview();
+        } else {
+            updateUI();
+        }
+    }
+
+    function togglePause() {
+        isPaused = !isPaused;
+        document.getElementById('btn-pause').innerText = isPaused ? "▶ 繼續" : "⏸ 暫停";
+        document.getElementById('options-container').style.opacity = isPaused ? "0.3" : "1";
+        document.getElementById('options-container').style.pointerEvents = isPaused ? "none" : "auto";
+    }
+
+    // --- 遊戲邏輯 ---
+    function nextQuestion() {
+        questionsAttempted++;
+        currentQuestion = generateQuestion(currentLevel);
+        
+        document.getElementById('question-text').innerHTML = currentQuestion.question;
+        let optContainer = document.getElementById('options-container');
+        optContainer.innerHTML = "";
+        
+        currentQuestion.options.forEach(opt => {
+            let btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = opt; 
+            btn.onclick = () => checkAnswer(opt, btn);
+            optContainer.appendChild(btn);
+        });
+        updateUI();
+    }
+
+    function checkAnswer(selected, btnElement) {
+        if (isPaused) return;
+        let isCorrect = (selected === currentQuestion.answer);
+        
+        gameHistory.push({
+            q: currentQuestion.question,
+            picked: selected,
+            correct: currentQuestion.answer,
+            isCorrect: isCorrect
+        });
+
+        let buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.style.pointerEvents = 'none');
+
+        if (isCorrect) {
+            btnElement.style.backgroundColor = "#2ecc71";
+            btnElement.style.color = "white";
+            
+            timeRemaining += 5; 
+            currentCombo++;
+            correctAnswers++;
+            
+            let points = 10 * (1 + (currentCombo * 0.1));
+            totalScore += Math.round(points);
+            
+            showFeedback(true);
+        } else {
+            btnElement.style.backgroundColor = "#e74c3c";
+            btnElement.style.color = "white";
+            
+            buttons.forEach(b => {
+                if(b.innerHTML === currentQuestion.answer) {
+                    b.style.backgroundColor = "#2ecc71";
+                    b.style.color = "white";
+                }
+            });
+
+            timeRemaining -= 5; 
+            currentCombo = 0; 
+            
+            showFeedback(false, currentQuestion.answer);
+        }
+        
+        updateUI();
+        
+        if (timeRemaining <= 0) {
+            timeRemaining = 0;
+            setTimeout(() => { endGameAndReview(); }, 1500);
+        } else {
+            setTimeout(nextQuestion, 1800);
+        }
+    }
+
+    function showFeedback(isCorrect, ans = "") {
+        let msgSuccess = ["太棒了！算得很準！", "你太厲害了！繼續保持！", "完美命中！", "邏輯很清晰喔！", "太神了！"];
+        let msgFail = ["沒關係，我們再仔細想想！", `別灰心，正確答案是...`, "差一點點，下次會更好！", "深呼吸，重新計算看看！", "失敗為成功之母，加油！"];
+        
+        if (isCorrect) {
+            let el = document.getElementById('avatar-success');
+            document.getElementById('msg-success').innerText = msgSuccess[Math.floor(Math.random()*msgSuccess.length)];
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 1500);
+        } else {
+            let el = document.getElementById('avatar-fail');
+            document.getElementById('msg-fail').innerText = msgFail[Math.floor(Math.random()*msgFail.length)];
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 1500);
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('timer').innerText = timeRemaining;
+        document.getElementById('q-count').innerText = questionsAttempted;
+        document.getElementById('combo').innerText = currentCombo;
+        document.getElementById('score').innerText = totalScore;
+    }
+
+    // --- 結算與復盤 ---
+    function endGameAndReview() {
+        clearInterval(timerInterval);
+        document.body.classList.remove('wb-active');
+        clearWhiteboard();
+
+        let date = new Date();
+        let dateStr = `${date.getFullYear()}/${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getDate().toString().padStart(2,'0')} ${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
+        
+        let totalAnswered = gameHistory.length; 
+        let wrongAnswers = totalAnswered - correctAnswers;
+        
+        let record = {
+            name: playerName,
+            level: `關卡${currentLevel}`,
+            diff: currentDifficulty.name,
+            correct: correctAnswers,
+            total: totalAnswered,
+            score: totalScore,
+            date: dateStr
+        };
+        
+        saveRecord(record);
+
+        document.getElementById('review-summary').innerHTML = `
+            <p style="color: #e8862e; font-size: 28px; margin: 10px 0;">⭐ 最終得分：${totalScore} 分</p>
+            <div style="display: flex; justify-content: center; gap: 30px; font-size: 18px;">
+                <p>✅ 答對：<span style="color: green;">${correctAnswers}</span> / ${totalAnswered} 題</p>
+                <p>❌ 答錯：<span style="color: red;">${wrongAnswers}</span> / ${totalAnswered} 題</p>
+            </div>
+        `;
+
+        let listHtml = "";
+        if (gameHistory.length === 0) {
+            listHtml = "<p style='text-align:center;'>本次沒有作答紀錄。</p>";
+        } else {
+            gameHistory.forEach((item, idx) => {
+                let color = item.isCorrect ? "green" : "red";
+                let icon = item.isCorrect ? "✅" : "❌";
+                listHtml += `
+                    <div class="review-item">
+                        <div class="review-q">Q${idx+1}: ${item.q}</div>
+                        <div style="color: ${color};">你的選擇: ${item.picked} ${icon}</div>
+                        ${!item.isCorrect ? `<div style="color: green; margin-top: 5px;">💡 正確答案: ${item.correct}</div>` : ""}
+                    </div>
+                `;
+            });
+        }
+        document.getElementById('review-list').innerHTML = listHtml;
+
+        hideAllPages();
+        document.getElementById('page-review').classList.remove('hidden');
+    }
+
+    // --- 排行榜邏輯 (LocalStorage) ---
+    function saveRecord(record) {
+        if(record.total === 0) return; 
+        let lb = JSON.parse(localStorage.getItem('jessieMathLeaderboard')) || [];
+        lb.push(record);
+        lb.sort((a, b) => {
+            if(b.score !== a.score) return b.score - a.score;
+            return b.correct - a.correct;
+        });
+        lb = lb.slice(0, 10); 
+        localStorage.setItem('jessieMathLeaderboard', JSON.stringify(lb));
+    }
+
+    function loadLeaderboard() {
+        let lb = JSON.parse(localStorage.getItem('jessieMathLeaderboard')) || [];
+        let tbody = document.getElementById('lb-body');
+        tbody.innerHTML = "";
+        
+        if (lb.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='7'>目前還沒有紀錄，趕快來挑戰成為第一名！</td></tr>";
+            return;
+        }
+
+        let medals = ["🥇", "🥈", "🥉"];
+        lb.forEach((rec, idx) => {
+            let rankStr = idx < 3 ? `<span class="rank-${idx+1}">${medals[idx]}</span>` : (idx + 1);
+            let row = `<tr>
+                <td>${rankStr}</td>
+                <td><b>${rec.name}</b></td>
+                <td>${rec.level}</td>
+                <td>${rec.diff}</td>
+                <td>${rec.correct} / ${rec.total}</td>
+                <td style="color:#e8862e; font-weight:bold;">${rec.score}</td>
+                <td style="font-size:12px; color:#7f8c8d;">${rec.date}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+
+    // --- 白板功能邏輯 ---
+    let canvas = document.getElementById('whiteboard-canvas');
+    let ctx = canvas.getContext('2d');
+    let isDrawing = false;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        ctx.strokeStyle = "#2980b9"; 
+        ctx.lineWidth = 3;
+        ctx.lineCap = "round";
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); 
+
+    function toggleWhiteboard() {
+        document.body.classList.toggle('wb-active');
+    }
+
+    function clearWhiteboard() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function startPosition(e) {
+        if(!document.body.classList.contains('wb-active')) return;
+        isDrawing = true;
+        draw(e);
+    }
+    function endPosition() {
+        isDrawing = false;
+        ctx.beginPath(); 
+    }
+    function draw(e) {
+        if (!isDrawing) return;
+        let x = e.clientX || e.touches[0].clientX;
+        let y = e.clientY || e.touches[0].clientY;
+        
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', endPosition);
+    canvas.addEventListener('mousemove', draw);
+    
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPosition(e); }, {passive: false});
+    canvas.addEventListener('touchend', endPosition);
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, {passive: false});
+
+</script>
+</body>
+</html>
